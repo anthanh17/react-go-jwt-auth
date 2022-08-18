@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 
+	"github.com/anthanh17/react-go-jwt-auth/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -14,10 +15,10 @@ func Connect() {
 		"admin123",
 		"testmysql")
 
-	_, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	connection, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic("Could not connect to the database")
 	}
-
+	connection.AutoMigrate(&models.User{})
 }
