@@ -1,11 +1,17 @@
 package controllers
 
 import (
+	"strconv"
+	"time"
+
 	"github.com/anthanh17/react-go-jwt-auth/database"
 	"github.com/anthanh17/react-go-jwt-auth/models"
+	"github.com/dgrijaLva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
 )
+
+const SecretKey = "secret"
 
 func Register(c *fiber.Ctx) error {
 	data := make(map[string]string)
@@ -30,7 +36,7 @@ func Login(c *fiber.Ctx) error {
 		return err
 	}
 
-	// data in database
+	// data in database check email -> user
 	var user models.User
 	database.DB.Where("email = ?", data["email"]).First(&user)
 	if user.Id == 0 {
@@ -48,6 +54,20 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
+		Issuer:    strconv.Itoa(int(user.Id)),
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), // 1 day
+	})
+
+	token, err := claims.SignedString([]byte(SecretKey))
+
+	if err != nil {
+		c.Status(fiber.StatusInternalServerError)
+		return c.JSON(fiber.Map{
+			"message": "Could not login",
+		})
+	}
+
 	// passwd successfully
-	return c.JSON(user)
+	return c.JSON(token)
 }
