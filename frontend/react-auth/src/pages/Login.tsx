@@ -1,5 +1,5 @@
 import React, {SyntheticEvent, useState} from 'react';
-import {Redirect} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
 const Login = (props: { setName: (name: string) => void }) => {
     const [email, setEmail] = useState('');
@@ -26,7 +26,7 @@ const Login = (props: { setName: (name: string) => void }) => {
     }
 
     if (redirect) {
-        return <Redirect to="/"/>;
+        return <Navigate to="/"/>;
     }
 
     return (

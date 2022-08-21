@@ -1,5 +1,5 @@
 import React, {SyntheticEvent, useState} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -24,7 +24,7 @@ const Register = () => {
     }
 
     if (redirect) {
-        return <Redirect to="/login"/>;
+        return <Navigate to="/login"/>;
     }
 
     return (

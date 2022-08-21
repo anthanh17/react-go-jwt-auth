@@ -31,9 +31,9 @@ function App() {
                 <Nav name={name} setName={setName}/>
 
                 <main className="form-signin">
-                    <Route path="/" exact component={() => <Home name={name}/>}/>
-                    <Route path="/login" component={() => <Login setName={setName}/>}/>
-                    <Route path="/register" component={Register}/>
+                    <Route path="/" element={<Home name={name}/>}/>
+                    <Route path="/login" element={<Login setName={setName}/>}/>
+                    <Route path="/register" element={<Register/>}/>
                 </main>
             </BrowserRouter>
         </div>
