@@ -1,6 +1,5 @@
 main:
-	cd backend
-	go run .
+	go run main.go
 MysqlStart:
 	mysql.server start
 
